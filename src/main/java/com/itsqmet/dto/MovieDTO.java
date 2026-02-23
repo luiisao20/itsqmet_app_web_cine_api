@@ -18,4 +18,5 @@ public class MovieDTO {
   private Date releaseDate;
   private String rating;
   private CategoryDTO category;
+  private StatusDTO status;
 }
