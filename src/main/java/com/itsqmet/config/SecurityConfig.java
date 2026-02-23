@@ -23,7 +23,7 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/", "/movies", "/movies/**", "/movies/saveAll", "/movies/save", "/movies/update/**",
-                "/movies/delete/**")
+                "/movies/delete/**", "/users/**", "/users/register", "/users", "/users/update/**", "/users/delete/**")
             .permitAll());
 
     return http.build();
