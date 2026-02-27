@@ -34,7 +34,6 @@ public class UserController {
 
   @PostMapping("/register")
   public UserDTO registerUser(@RequestBody UserDTO user) {
-    System.out.println(user);
     return userService.registerUser(user);
   }
 

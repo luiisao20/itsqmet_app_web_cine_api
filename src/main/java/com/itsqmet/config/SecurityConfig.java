@@ -35,9 +35,17 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .httpBasic(Customizer.withDefaults())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/auth/login", "/movies", "/movies/**", "/users/register").permitAll()
-            .requestMatchers("/movies/save", "/movies/saveAll", "/movies/update/**", "/movies/delete/**").hasRole("MODERATOR")
+            // Paths para todos los usuarios
+            .requestMatchers("/auth/login", "/movies", "/movies/**",
+                "/users/register", "/contact/save")
+            .permitAll()
+            // Paths solo para moderadores
+            .requestMatchers("/movies/save", "/movies/saveAll", "/movies/update/**", "/movies/delete/**",
+                "/contact/**", "/contact/delete/**")
+            .hasRole("MODERATOR")
+            // Paths solo para administradores
             .requestMatchers("/users/update/**", "/users/delete/**", "/users").hasRole("ADMIN")
+            // Resto de paths para usuarios autenticados
             .anyRequest().authenticated())
         .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class);
 
