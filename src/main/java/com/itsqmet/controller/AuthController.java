@@ -1,5 +1,7 @@
 package com.itsqmet.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,9 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<AuthResponse> loginUser(@RequestBody UserDTO user) {
+    System.out.println(user);
     Authentication authentication = userService.loginAction(user.getEmail(), user.getPassword());
+    Optional<UserDTO> currentUser = userService.getUserByEmail(user.getEmail());
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -34,6 +38,8 @@ public class AuthController {
     authResponse.setMessage("Loging exitoso");
     authResponse.setJwt(jwt);
     authResponse.setStatus(true);
+    authResponse.setEmail(currentUser.get().getEmail());
+    authResponse.setRole(currentUser.get().getRole().name());
 
     return new ResponseEntity<>(authResponse, HttpStatus.OK);
   }

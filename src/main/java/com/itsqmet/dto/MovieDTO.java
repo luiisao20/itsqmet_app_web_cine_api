@@ -15,6 +15,7 @@ public class MovieDTO {
   private String imageUrl;
   private String time;
   private String overview;
+  private String trailer;
   private Date releaseDate;
   private String rating;
   private CategoryDTO category;

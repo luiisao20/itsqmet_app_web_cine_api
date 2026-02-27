@@ -37,6 +37,7 @@ public class MovieService {
     movie.setOverview(dto.getOverview());
     movie.setReleaseDate(dto.getReleaseDate());
     movie.setRating(dto.getRating());
+    movie.setTrailer(dto.getTrailer());
 
     if (dto.getCategory() != null) {
       Category category = categoryRepository.findById(dto.getCategory().getId())
@@ -62,6 +63,7 @@ public class MovieService {
     dto.setOverview(movie.getOverview());
     dto.setReleaseDate(movie.getReleaseDate());
     dto.setRating(movie.getRating());
+    dto.setTrailer(movie.getTrailer());
 
     if (movie.getCategory() != null) {
       CategoryDTO categoryDTO = new CategoryDTO();

@@ -37,7 +37,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/auth/login", "/movies", "/movies/**", "/users/register").permitAll()
             .requestMatchers("/movies/save", "/movies/saveAll", "/movies/update/**").hasRole("MODERATOR")
-            .requestMatchers("/users/update/**", "/users/delete/**").hasRole("ADMIN")
+            .requestMatchers("/users/update/**", "/users/delete/**", "/users").hasRole("ADMIN")
             .anyRequest().authenticated())
         .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class);
 
