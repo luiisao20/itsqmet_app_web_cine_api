@@ -32,11 +32,14 @@ public class Movie {
   @NotNull
   private String imageUrl;
 
+  @Column(nullable = false, columnDefinition = "TEXT")
+  private String trailer;
+
   @NotNull
   private String time;
 
   @NotNull
-  @Column(columnDefinition = "LONGTEXT")
+  @Column(columnDefinition = "TEXT")
   private String overview;
 
   @NotNull
