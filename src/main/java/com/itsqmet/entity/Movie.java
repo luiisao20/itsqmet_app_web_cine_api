@@ -1,6 +1,7 @@
 package com.itsqmet.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -53,6 +55,9 @@ public class Movie {
   @JoinColumn(name = "category_id")
   private Category category;
 
+  @OneToMany(mappedBy = "movie")
+  private List<Ticket> tickets;
+
   private String rating;
 
   public Movie(String title, String imageUrl, String time, String overview, Date releaseDate,
@@ -66,5 +71,4 @@ public class Movie {
     this.category = category;
     this.rating = rating;
   }
-
 }

@@ -7,11 +7,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 import com.itsqmet.roles.Role;
 
@@ -38,4 +41,7 @@ public class User {
   private String cellphone;
 
   private String password;
+
+  @OneToMany(mappedBy = "user")
+  private List<Ticket> tickets;
 }
