@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itsqmet.dto.CategoryDTO;
 import com.itsqmet.dto.MovieDTO;
+import com.itsqmet.dto.StatusDTO;
+import com.itsqmet.service.CategoryService;
 import com.itsqmet.service.MovieService;
+import com.itsqmet.service.StatusService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,16 +23,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/movies")
-@CrossOrigin(origins = "http://localhost:4200", methods = {
-    RequestMethod.DELETE,
-    RequestMethod.GET,
-    RequestMethod.POST,
-    RequestMethod.PUT,
-    RequestMethod.OPTIONS
-})
 public class MovieController {
   @Autowired
   private MovieService movieService;
+
+  @Autowired
+  private CategoryService categoryService;
+
+  @Autowired
+  private StatusService statusService;
+
+  @GetMapping("/statuses")
+  public List<StatusDTO> getStatus() {
+    return statusService.findAll();
+  }
+
+  @GetMapping("/categories")
+  public List<CategoryDTO> getCategory() {
+    return categoryService.findAll();
+  }
 
   @GetMapping
   public List<MovieDTO> getMovies() {

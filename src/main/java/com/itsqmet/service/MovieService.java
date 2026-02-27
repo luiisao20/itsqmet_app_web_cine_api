@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.itsqmet.dto.CategoryDTO;
 import com.itsqmet.dto.MovieDTO;
+import com.itsqmet.dto.StatusDTO;
 import com.itsqmet.entity.Category;
 import com.itsqmet.entity.Movie;
 import com.itsqmet.entity.Status;
@@ -64,12 +65,20 @@ public class MovieService {
     dto.setReleaseDate(movie.getReleaseDate());
     dto.setRating(movie.getRating());
     dto.setTrailer(movie.getTrailer());
+    dto.setTime(movie.getTime());
 
     if (movie.getCategory() != null) {
       CategoryDTO categoryDTO = new CategoryDTO();
       categoryDTO.setId(movie.getCategory().getId());
       categoryDTO.setName(movie.getCategory().getName());
       dto.setCategory(categoryDTO);
+    }
+
+    if (movie.getStatus() != null) {
+      StatusDTO statusDTO = new StatusDTO();
+      statusDTO.setId(movie.getStatus().getId());
+      statusDTO.setName(movie.getStatus().getName());
+      dto.setStatus(statusDTO);
     }
     return dto;
   }

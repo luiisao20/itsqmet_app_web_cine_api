@@ -36,7 +36,7 @@ public class SecurityConfig {
         .httpBasic(Customizer.withDefaults())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/auth/login", "/movies", "/movies/**", "/users/register").permitAll()
-            .requestMatchers("/movies/save", "/movies/saveAll", "/movies/update/**").hasRole("MODERATOR")
+            .requestMatchers("/movies/save", "/movies/saveAll", "/movies/update/**", "/movies/delete/**").hasRole("MODERATOR")
             .requestMatchers("/users/update/**", "/users/delete/**", "/users").hasRole("ADMIN")
             .anyRequest().authenticated())
         .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class);

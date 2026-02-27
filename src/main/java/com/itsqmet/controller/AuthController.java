@@ -17,7 +17,6 @@ import com.itsqmet.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -43,5 +42,5 @@ public class AuthController {
 
     return new ResponseEntity<>(authResponse, HttpStatus.OK);
   }
-  
+
 }
