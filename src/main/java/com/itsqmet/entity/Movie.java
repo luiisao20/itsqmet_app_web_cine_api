@@ -1,15 +1,21 @@
 package com.itsqmet.entity;
 
-import java.sql.Date;
+import java.time.OffsetDateTime;
 import java.util.List;
+
+import com.itsqmet.types.MovieStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -28,47 +34,45 @@ public class Movie {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
-  private String title;
-
-  @NotNull
+  @Column(nullable = false)
   private String imageUrl;
+
+  private Float rating;
+
+  @Column(nullable = false, columnDefinition = "timestamptz")
+  private OffsetDateTime releaseDate;
+  
+  @Column(nullable = false)
+  private Float time;
+
+  @Column(nullable = false)
+  private String title;
 
   @Column(nullable = false, columnDefinition = "TEXT")
   private String trailer;
 
-  @NotNull
-  private String time;
+  private Float revenew;
 
   @NotNull
   @Column(columnDefinition = "TEXT")
   private String overview;
 
-  @NotNull
-  private Date releaseDate;
+  @Enumerated(EnumType.STRING)
+  private MovieStatus status;
 
-  @ManyToOne
-  @JoinColumn(name = "status_id")
-  private Status status;
+  private Integer totalReviews;
 
-  @ManyToOne
-  @JoinColumn(name = "category_id")
-  private Category category;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+    name = "movie_has_categories",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id")
+  )
+  private List<Category> category;
 
   @OneToMany(mappedBy = "movie")
-  private List<Ticket> tickets;
+  private List<Schedule> schedules;
 
-  private String rating;
-
-  public Movie(String title, String imageUrl, String time, String overview, Date releaseDate,
-      Status status, Category category, String rating) {
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.time = time;
-    this.overview = overview;
-    this.releaseDate = releaseDate;
-    this.status = status;
-    this.category = category;
-    this.rating = rating;
-  }
+  @OneToMany(mappedBy = "movie")
+  private List<Review> reviews;
 }

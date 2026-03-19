@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itsqmet.dto.CategoryDTO;
-import com.itsqmet.dto.MovieDTO;
-import com.itsqmet.dto.StatusDTO;
+import com.itsqmet.entity.Movie;
 import com.itsqmet.service.CategoryService;
 import com.itsqmet.service.MovieService;
-import com.itsqmet.service.StatusService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,41 +28,33 @@ public class MovieController {
   @Autowired
   private CategoryService categoryService;
 
-  @Autowired
-  private StatusService statusService;
-
-  @GetMapping("/statuses")
-  public List<StatusDTO> getStatus() {
-    return statusService.findAll();
-  }
-
   @GetMapping("/categories")
   public List<CategoryDTO> getCategory() {
     return categoryService.findAll();
   }
 
   @GetMapping
-  public List<MovieDTO> getMovies() {
+  public List<Movie> getMovies() {
     return movieService.showMovies();
   }
 
   @GetMapping("/{id}")
-  public Optional<MovieDTO> getMovieById(@PathVariable Long id) {
+  public Optional<Movie> getMovieById(@PathVariable Long id) {
     return movieService.findMovieById(id);
   }
 
   @PostMapping("/saveAll")
-  public List<MovieDTO> saveAllMovies(@RequestBody List<MovieDTO> movies) {
+  public List<Movie> saveAllMovies(@RequestBody List<Movie> movies) {
     return movieService.saveMultipleMovies(movies);
   }
 
   @PostMapping("/save")
-  public MovieDTO saveMovie(@RequestBody MovieDTO movie) {
+  public Movie saveMovie(@RequestBody Movie movie) {
     return movieService.saveMovie(movie);
   }
 
   @PutMapping("/update/{id}")
-  public MovieDTO updtaeMovie(@PathVariable Long id, @RequestBody MovieDTO movie) {
+  public Movie updtaeMovie(@PathVariable Long id, @RequestBody Movie movie) {
     return movieService.updateMovie(id, movie);
   }
 

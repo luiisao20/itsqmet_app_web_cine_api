@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.itsqmet.dto.TicketDTO;
+import com.itsqmet.entity.Ticket;
 import com.itsqmet.service.TicketService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +20,12 @@ public class TicketController {
   private TicketService ticketService;
 
   @PostMapping("/save")
-  public TicketDTO saveTicket(@RequestBody TicketDTO ticket) {
+  public Ticket saveTicket(@RequestBody Ticket ticket) {
     return ticketService.saveTicket(ticket);
   }
 
   @GetMapping("/{id}")
-  public Optional<TicketDTO> getTicketById(@PathVariable Long id) {
+  public Optional<Ticket> getTicketById(@PathVariable Long id) {
     return ticketService.getTicketById(id);
   }
 

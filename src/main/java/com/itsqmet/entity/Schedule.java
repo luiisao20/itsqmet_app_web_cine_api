@@ -3,19 +3,18 @@ package com.itsqmet.entity;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
-import com.itsqmet.types.Seat;
+import com.itsqmet.types.FunctionType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,31 +24,33 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tickets")
-public class Ticket {
+@Table(name = "schedules")
+public class Schedule {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @CreationTimestamp
-  @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMPTZ")
-  private OffsetDateTime createdAt;
-
-  @Column(nullable = false)
-  private Double price;
-
-  @JdbcTypeCode(SqlTypes.JSON)
-  @Column(nullable = false, columnDefinition = "jsonb")
-  private List<Seat> seats;
-
   @Column(nullable = false)
   private Integer room;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+  @Column(nullable = false, columnDefinition = "timestamptz")
+  private OffsetDateTime date;
+
+  @Enumerated(EnumType.STRING)
+  private FunctionType type;
+
+  private Integer availableSeats;
+
+  private Integer occupiedSeats;
 
   @ManyToOne
-  @JoinColumn(name = "schedule_id")
-  private Schedule schedule;
+  @JoinColumn(name = "movie_id")
+  private Movie movie;
+
+  @ManyToOne
+  @JoinColumn(name = "stablishment_id")
+  private Stablishment stablishment;
+
+  @OneToMany(mappedBy = "schedule")
+  private List<Ticket> tickets;
 }

@@ -2,13 +2,18 @@ package com.itsqmet.entity;
 
 import java.util.List;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import com.itsqmet.types.StablishmentAddress;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,15 +22,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "status")
-public class Status {
+@Table(name = "stablishments")
+public class Stablishment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
+  @Column(nullable = false)
   private String name;
 
-  @OneToMany(mappedBy = "status")
-  private List<Movie> movies;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(nullable = false, columnDefinition = "jsonb")
+  private StablishmentAddress address;
+
+  @OneToMany(mappedBy = "stablishment")
+  private List<Schedule> schedules;
 }

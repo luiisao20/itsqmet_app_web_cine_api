@@ -7,7 +7,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -44,4 +46,11 @@ public class User {
 
   @OneToMany(mappedBy = "user")
   private List<Ticket> tickets;
+
+  @OneToMany(mappedBy = "user")
+  private List<Review> reviews;
+
+  @OneToOne
+  @JoinColumn(name = "card_id")
+  private Memberships benefits_card;
 }
