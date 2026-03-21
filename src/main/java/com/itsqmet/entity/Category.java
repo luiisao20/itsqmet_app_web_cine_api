@@ -27,6 +27,6 @@ public class Category {
   @NotNull
   private String name;
 
-  @ManyToMany(mappedBy = "category")
+  @ManyToMany(mappedBy = "categories")
   private List<Movie> movies;
 }

@@ -42,4 +42,10 @@ public class AuthController {
     return new ResponseEntity<>(authResponse, HttpStatus.OK);
   }
 
+  @PostMapping("/register")
+  public String register(@RequestBody UserDTO user) {
+    userService.registerUser(user);
+    return "OK";
+  }
+
 }

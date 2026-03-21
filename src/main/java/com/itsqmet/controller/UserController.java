@@ -12,7 +12,6 @@ import com.itsqmet.dto.UserDTO;
 import com.itsqmet.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -30,11 +29,6 @@ public class UserController {
   @GetMapping("/{uuid}")
   public Optional<UserDTO> getUserByUuid(@PathVariable String uuid) {
     return userService.getUserById(uuid);
-  }
-
-  @PostMapping("/register")
-  public UserDTO registerUser(@RequestBody UserDTO user) {
-    return userService.registerUser(user);
   }
 
   @PutMapping("/update/{uuid}")

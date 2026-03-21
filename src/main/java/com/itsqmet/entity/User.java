@@ -51,6 +51,6 @@ public class User {
   private List<Review> reviews;
 
   @OneToOne
-  @JoinColumn(name = "card_id")
-  private Memberships benefits_card;
+  @JoinColumn(name = "card_id", nullable = true)
+  private Membership benefits_card;
 }

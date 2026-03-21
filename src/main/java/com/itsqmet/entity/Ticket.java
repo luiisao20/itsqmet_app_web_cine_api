@@ -11,6 +11,7 @@ import com.itsqmet.types.Seat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -45,11 +46,14 @@ public class Ticket {
   @Column(nullable = false)
   private Integer room;
 
-  @ManyToOne
+  @Column(nullable = false)
+  private Integer numberSeats;
+
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "schedule_id")
   private Schedule schedule;
 }

@@ -68,7 +68,7 @@ public class Movie {
     joinColumns = @JoinColumn(name = "movie_id"),
     inverseJoinColumns = @JoinColumn(name = "category_id")
   )
-  private List<Category> category;
+  private List<Category> categories;
 
   @OneToMany(mappedBy = "movie")
   private List<Schedule> schedules;

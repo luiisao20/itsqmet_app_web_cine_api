@@ -11,30 +11,30 @@ import com.itsqmet.dto.CategoryDTO;
 import com.itsqmet.entity.Category;
 import com.itsqmet.repository.CategoryRepository;
 
-import jakarta.transaction.Transactional;
-
 @Service
 public class CategoryService {
   @Autowired
   private CategoryRepository categoryRepository;
 
-  private CategoryDTO mapToDTO(Category category) {
-    CategoryDTO dto = new CategoryDTO();
-    dto.setId(category.getId());
-    dto.setName(category.getName());
-    return dto;
-  }
-
-  private Category maptoEntity(CategoryDTO dto) {
+  public Category mapToEntity(CategoryDTO dto) {
     Category category = new Category();
+
     category.setId(dto.getId());
     category.setName(dto.getName());
     return category;
   }
 
+  public CategoryDTO mapToDTO(Category category) {
+    CategoryDTO dto = new CategoryDTO();
+
+    dto.setId(category.getId());
+    dto.setName(category.getName());
+
+    return dto;
+  }
+
   public List<CategoryDTO> findAll() {
-    return categoryRepository.findAll()
-        .stream()
+    return categoryRepository.findAll().stream()
         .map(c -> mapToDTO(c))
         .collect(Collectors.toList());
   }
@@ -48,28 +48,23 @@ public class CategoryService {
 
   public Optional<CategoryDTO> findById(Long id) {
     return categoryRepository.findById(id)
-        .map(m -> mapToDTO(m));
+        .map(c -> mapToDTO(c));
   }
 
   public CategoryDTO saveCategory(CategoryDTO category) {
-    return mapToDTO(categoryRepository.save(maptoEntity(category)));
+    return mapToDTO(categoryRepository.save(mapToEntity(category)));
   }
 
-  public CategoryDTO updateCategory(Long id, Category category) {
-    Category oldCategory = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+  public CategoryDTO updateCategory(Long id, CategoryDTO category) {
+    Category oldCategory = categoryRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Category not found"));
 
     oldCategory.setName(category.getName());
 
-    Category categoryUpdated = categoryRepository.save(oldCategory);
-    return mapToDTO(categoryUpdated);
+    return mapToDTO(categoryRepository.save(oldCategory));
   }
 
   public void deleteCategory(Long id) {
     categoryRepository.deleteById(id);
-  }
-
-  @Transactional
-  public CategoryDTO getCategoryWithMovie(Long id) {
-    return findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
   }
 }

@@ -26,28 +26,29 @@ public class UserService implements UserDetailsService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  private User mapToEntity(UserDTO dto) {
+  public User mapToEntity(UserDTO dto) {
     User user = new User();
 
     user.setUuid(dto.getUuid());
     user.setName(dto.getName());
     user.setEmail(dto.getEmail());
-    user.setRole(dto.getRole());
     user.setCellphone(dto.getCellphone());
     user.setPassword(dto.getPassword());
+    user.setRole(dto.getRole());
 
     return user;
   }
 
-  private UserDTO mapToDTO(User user) {
+  public UserDTO mapToDTO(User user) {
     UserDTO dto = new UserDTO();
 
     dto.setUuid(user.getUuid());
     dto.setName(user.getName());
     dto.setEmail(user.getEmail());
-    dto.setRole(user.getRole());
     dto.setCellphone(user.getCellphone());
+    dto.setRole(user.getRole());
     dto.setPassword(user.getPassword());
+    dto.setCardId(user.getBenefits_card() != null ? user.getBenefits_card().getId() : null);
 
     return dto;
   }
@@ -71,7 +72,9 @@ public class UserService implements UserDetailsService {
   }
 
   public UserDTO updateUser(String uuid, UserDTO user) {
-    UserDTO oldUser = getUserById(uuid).orElseThrow(() -> new RuntimeException("User not found"));
+    UserDTO oldUser = getUserById(uuid)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+
     oldUser.setName(user.getName());
     oldUser.setEmail(user.getEmail());
     oldUser.setCellphone(user.getCellphone());
@@ -92,8 +95,7 @@ public class UserService implements UserDetailsService {
   }
 
   public void deleteUser(String uuid) {
-    UserDTO user = getUserById(uuid).orElseThrow(() -> new RuntimeException("User not found"));
-    userRepository.delete(mapToEntity(user));
+    userRepository.deleteById(uuid);
   }
 
   @Override

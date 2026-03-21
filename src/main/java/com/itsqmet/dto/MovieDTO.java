@@ -1,6 +1,9 @@
 package com.itsqmet.dto;
 
-import java.sql.Date;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import com.itsqmet.types.MovieStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,13 +14,15 @@ import lombok.NoArgsConstructor;
 @Data
 public class MovieDTO {
   private Long id;
-  private String title;
   private String imageUrl;
-  private String time;
-  private String overview;
+  private Float rating;
+  private OffsetDateTime releaseDate;
+  private Float time;
+  private String title;
   private String trailer;
-  private Date releaseDate;
-  private String rating;
-  private CategoryDTO category;
-  private StatusDTO status;
+  private Float revenew;
+  private String overview;
+  private MovieStatus status;
+  private Integer totalReviews;
+  private List<CategoryDTO> categories;
 }

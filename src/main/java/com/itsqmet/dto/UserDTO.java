@@ -21,4 +21,6 @@ public class UserDTO {
   private String cellphone;
 
   private String password;
+
+  private Long cardId;
 }

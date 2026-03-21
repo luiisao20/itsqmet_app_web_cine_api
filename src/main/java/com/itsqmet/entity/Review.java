@@ -1,7 +1,12 @@
 package com.itsqmet.entity;
 
+import java.time.OffsetDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,11 +36,15 @@ public class Review {
   @Column(nullable = false)
   private int rating;
 
-  @ManyToOne
+  @CreationTimestamp
+  @Column(nullable = false, columnDefinition = "timestamptz")
+  private OffsetDateTime createdAt;
+
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "movie_id")
   private Movie movie;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 }

@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "benefits_cards")
-public class Memberships {
+public class Membership {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
