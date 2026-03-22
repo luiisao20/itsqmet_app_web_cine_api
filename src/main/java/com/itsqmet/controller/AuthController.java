@@ -38,6 +38,7 @@ public class AuthController {
     authResponse.setStatus(true);
     authResponse.setEmail(currentUser.get().getEmail());
     authResponse.setRole(currentUser.get().getRole().name());
+    authResponse.setUuid(currentUser.get().getUuid());
 
     return new ResponseEntity<>(authResponse, HttpStatus.OK);
   }
