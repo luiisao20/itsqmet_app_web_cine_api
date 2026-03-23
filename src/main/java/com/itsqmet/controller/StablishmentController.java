@@ -38,6 +38,11 @@ public class StablishmentController {
     return stablishmentService.save(entity);
   }
 
+  @PostMapping("/saveAll")
+  public List<StablishmentDTO> saveAll(@RequestBody List<StablishmentDTO> entity) {
+    return stablishmentService.saveAll(entity);
+  }
+
   @PutMapping("/update/{id}")
   public StablishmentDTO update(@PathVariable Long id, @RequestBody StablishmentDTO dto) {
     return stablishmentService.update(id, dto);

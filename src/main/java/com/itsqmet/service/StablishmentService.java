@@ -47,6 +47,16 @@ public class StablishmentService {
     return mapToDTO(stablishmentRepository.save(mapToEntity(stablishment)));
   }
 
+  public List<StablishmentDTO> saveAll(List<StablishmentDTO> stablishments) {
+    List<Stablishment> stabs = stablishments.stream()
+        .map(s -> mapToEntity(s))
+        .collect(Collectors.toList());
+    return stablishmentRepository.saveAll(stabs)
+        .stream()
+        .map(m -> mapToDTO(m))
+        .collect(Collectors.toList());
+  }
+
   public Optional<StablishmentDTO> getItemById(Long id) {
     return stablishmentRepository.findById(id)
         .map(s -> mapToDTO(s));

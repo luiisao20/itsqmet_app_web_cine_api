@@ -1,9 +1,11 @@
 package com.itsqmet.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,8 +34,9 @@ public class UserController {
   }
 
   @PutMapping("/update/{uuid}")
-  public UserDTO updateUser(@PathVariable String uuid, @RequestBody UserDTO user) {
-    return userService.updateUser(uuid, user);
+  public ResponseEntity<Map<String, String>> updateUser(@PathVariable String uuid, @RequestBody UserDTO user) {
+    userService.updateUser(uuid, user);
+    return ResponseEntity.ok(Map.of("message", "OK"));
   }
 
   @DeleteMapping("/delete/{uuid}")

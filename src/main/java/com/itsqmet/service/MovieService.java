@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.itsqmet.dto.MovieDTO;
 import com.itsqmet.entity.Movie;
 import com.itsqmet.repository.MovieRepository;
+import com.itsqmet.types.MovieStatus;
 
 @Service
 public class MovieService {
@@ -81,6 +82,12 @@ public class MovieService {
         .collect(Collectors.toList());
 
     return movieRepository.saveAll(movies).stream()
+        .map(m -> mapToDTO(m))
+        .collect(Collectors.toList());
+  }
+
+  public List<MovieDTO> getMoviesByStatus(MovieStatus status) {
+    return movieRepository.findByStatus(status).stream()
         .map(m -> mapToDTO(m))
         .collect(Collectors.toList());
   }

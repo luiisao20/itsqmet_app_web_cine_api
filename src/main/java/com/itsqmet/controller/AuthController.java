@@ -1,5 +1,6 @@
 package com.itsqmet.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,9 @@ public class AuthController {
   }
 
   @PostMapping("/register")
-  public String register(@RequestBody UserDTO user) {
+  public ResponseEntity<Map<String, String>> register(@RequestBody UserDTO user) {
     userService.registerUser(user);
-    return "OK";
+    return ResponseEntity.ok(Map.of("message", "ok"));
   }
 
 }

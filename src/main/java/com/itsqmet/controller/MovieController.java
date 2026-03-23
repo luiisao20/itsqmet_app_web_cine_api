@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itsqmet.dto.MovieDTO;
 import com.itsqmet.service.MovieService;
+import com.itsqmet.types.MovieStatus;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +26,14 @@ public class MovieController {
   private MovieService movieService;
 
   @GetMapping
-  public List<MovieDTO> getMovies() {
-    return movieService.showMovies();
+  public List<MovieDTO> getMovies(@RequestParam(defaultValue = "") String title) {
+    return movieService.findMovieByTitle(title);
+  }
+
+  @GetMapping("/status")
+  public List<MovieDTO> getByStatus(@RequestParam(required = false) String status) {
+    MovieStatus movieStatus = MovieStatus.valueOf(status);
+    return movieService.getMoviesByStatus(movieStatus);
   }
 
   @GetMapping("/{id}")
