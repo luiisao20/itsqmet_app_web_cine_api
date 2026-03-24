@@ -74,9 +74,10 @@ public class ScheduleService {
     return dto;
   }
 
-  private ScheduleDTO mapToDTOWithoutStablishment(Schedule schedule) {
+  private ScheduleDTO mapToDTOWithoutStablishmentAndMovie(Schedule schedule) {
     ScheduleDTO dto = mapToDTO(schedule);
     dto.setStablishment(null);
+    dto.setMovie(null);
     return dto;
   }
 
@@ -84,6 +85,17 @@ public class ScheduleService {
     ScheduleDTO dto = mapToDTO(schedule);
     dto.setMovie(null);
     return dto;
+  }
+
+  public List<ScheduleDTO> saveMultiple(List<ScheduleDTO> dtos) {
+    List<Schedule> schedules = dtos.stream()
+        .map(s -> mapToEntity(s))
+        .collect(Collectors.toList());
+
+    return scheduleRepository.saveAll(schedules)
+        .stream()
+        .map(s -> mapToDTO(s))
+        .collect(Collectors.toList());
   }
 
   public List<ScheduleDTO> getAll() {
@@ -130,9 +142,9 @@ public class ScheduleService {
     scheduleRepository.deleteById(id);
   }
 
-  public List<ScheduleDTO> getItemsByStablishment(Long id) {
-    return scheduleRepository.findByStablishmentId(id).stream()
-        .map(s -> mapToDTOWithoutStablishment(s))
+  public List<ScheduleDTO> getItemsByStablishment(Long stablishmentId, Long movieId) {
+    return scheduleRepository.findByStablishmentIdAndMovieId(stablishmentId, movieId).stream()
+        .map(s -> mapToDTOWithoutStablishmentAndMovie(s))
         .collect(Collectors.toList());
   }
 

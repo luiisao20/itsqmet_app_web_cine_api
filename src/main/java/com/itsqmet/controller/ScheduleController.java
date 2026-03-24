@@ -33,9 +33,9 @@ public class ScheduleController {
     return scheduleService.getItemById(id);
   }
 
-  @GetMapping("/stablishment/{id}")
-  public List<ScheduleDTO> getByStablishment(@PathVariable Long id) {
-    return scheduleService.getItemsByStablishment(id);
+  @GetMapping("/stablishment/{sId}/movie/{mId}")
+  public List<ScheduleDTO> getByStablishment(@PathVariable Long sId, @PathVariable Long mId) {
+    return scheduleService.getItemsByStablishment(sId, mId);
   }
 
   @GetMapping("/movie/{id}")
@@ -46,6 +46,11 @@ public class ScheduleController {
   @PostMapping("/save")
   public ScheduleDTO save(@RequestBody ScheduleDTO entity) {
     return scheduleService.save(entity);
+  }
+
+  @PostMapping("/saveAll")
+  public List<ScheduleDTO> postAll(@RequestBody List<ScheduleDTO> dtos) {
+    return scheduleService.saveMultiple(dtos);
   }
 
   @PutMapping("/update/{id}")

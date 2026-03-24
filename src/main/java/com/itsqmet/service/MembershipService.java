@@ -43,7 +43,11 @@ public class MembershipService {
     dto.setMinVisits(membership.getMinVisits());
     dto.setFoodDiscount(membership.getFoodDiscount());
     dto.setGeneralDiscounts(membership.getGeneralDiscounts());
-    dto.setUserDTO(userService.mapToDTO(membership.getUser()));
+    if (membership.getUser() != null) {
+      dto.setUserDTO(userService.mapToDTO(membership.getUser()));
+    } else {
+      dto.setUserDTO(null);
+    }
 
     return dto;
   }

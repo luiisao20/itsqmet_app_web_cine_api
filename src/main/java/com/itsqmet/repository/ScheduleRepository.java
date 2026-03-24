@@ -9,7 +9,7 @@ import com.itsqmet.entity.Schedule;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-  List<Schedule> findByStablishmentId(Long id);
+  List<Schedule> findByStablishmentIdAndMovieId(Long stablishmentId, Long movieId);
 
   List<Schedule> findByMovieId(Long id);
 }

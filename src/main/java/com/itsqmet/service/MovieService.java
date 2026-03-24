@@ -103,6 +103,13 @@ public class MovieService {
     }
   }
 
+  public List<MovieDTO> findMoviesByStablishments(Long id) {
+    return movieRepository.findByStablishment(id)
+        .stream()
+        .map(m -> mapToDTO(m))
+        .collect(Collectors.toList());
+  }
+
   public Optional<MovieDTO> findMovieById(Long id) {
     return movieRepository.findById(id).map(m -> mapToDTO(m));
   }

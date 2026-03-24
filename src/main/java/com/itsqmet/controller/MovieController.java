@@ -41,6 +41,11 @@ public class MovieController {
     return movieService.findMovieById(id);
   }
 
+  @GetMapping("/stablishment/{id}")
+  public List<MovieDTO> getByStablishment(@PathVariable Long id) {
+    return movieService.findMoviesByStablishments(id);
+  }
+
   @GetMapping("/category/{id}")
   public List<MovieDTO> getItemsByCategory(@PathVariable Long id) {
     return movieService.getByCategory(id);

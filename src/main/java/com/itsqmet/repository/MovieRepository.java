@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.itsqmet.entity.Movie;
 import com.itsqmet.types.MovieStatus;
 
-
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
   List<Movie> findByTitleContainingIgnoreCase(String title);
@@ -19,4 +18,10 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
   List<Movie> findByCategoryId(@Param("find_category_id") Long id);
 
   List<Movie> findByStatus(MovieStatus status);
+
+  @Query(value = "select m.*b from movies as m join schedules as s " +
+      "on s.movie_id = m.id join stablishments as st " +
+      "on st.id = s.stablishment_id where st.id = " +
+      ":find_stablishment group by m.id order by m.release_date asc", nativeQuery = true)
+  List<Movie> findByStablishment(@Param("find_stablishment") Long id);
 }
