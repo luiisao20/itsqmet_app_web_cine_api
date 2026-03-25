@@ -1,5 +1,6 @@
 package com.itsqmet.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ import com.itsqmet.dto.UserDTO;
 import com.itsqmet.jwt.JwtProvider;
 import com.itsqmet.response.AuthResponse;
 import com.itsqmet.service.UserService;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -23,6 +26,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthController {
   @Autowired
   private UserService userService;
+
+  @GetMapping("validate")
+  public ResponseEntity<Map<String, Object>> validateToken() {
+    Map<String, Object> response = new HashMap<>();
+    response.put("message", "Token is valid");
+
+    return ResponseEntity.ok(response);
+  }
 
   @PostMapping("/login")
   public ResponseEntity<AuthResponse> loginUser(@RequestBody UserDTO user) {

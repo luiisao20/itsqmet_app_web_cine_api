@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/schedules")
@@ -26,6 +27,16 @@ public class ScheduleController {
   @GetMapping
   public List<ScheduleDTO> getAll() {
     return scheduleService.getAll();
+  }
+
+  @GetMapping("/movieTitle")
+  public Optional<List<ScheduleDTO>> getByMovie(@RequestParam(defaultValue = "") String title) {
+    return scheduleService.getItemsByMovieTitle(title);
+  }
+
+  @GetMapping("/stablishmentName")
+  public Optional<List<ScheduleDTO>> getByStablishment(@RequestParam(defaultValue = "") String name) {
+    return scheduleService.getItemsByStablishmentName(name);
   }
 
   @GetMapping("/{id}")

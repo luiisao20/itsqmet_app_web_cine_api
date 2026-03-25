@@ -153,4 +153,18 @@ public class ScheduleService {
         .map(s -> mapToDTOWithoutMovie(s))
         .collect(Collectors.toList());
   }
+
+  public Optional<List<ScheduleDTO>> getItemsByMovieTitle(String title) {
+    return scheduleRepository.findByMovieTitleContainingIgnoreCase(title)
+        .map(schedules -> schedules.stream()
+            .map(s -> mapToDTO(s))
+            .collect(Collectors.toList()));
+  }
+
+  public Optional<List<ScheduleDTO>> getItemsByStablishmentName(String name) {
+    return scheduleRepository.findByStablishmentNameContainingIgnoreCase(name)
+        .map(schedules -> schedules.stream()
+            .map(s -> mapToDTO(s))
+            .collect(Collectors.toList()));
+  }
 }
