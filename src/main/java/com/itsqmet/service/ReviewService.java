@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.itsqmet.dto.ReviewDTO;
@@ -78,11 +80,9 @@ public class ReviewService {
     return mapToDto(reviewRepository.save(mapToEntity(review)));
   }
 
-  public List<ReviewDTO> getAll() {
-    return reviewRepository.findAll()
-        .stream()
-        .map(r -> mapToDto(r))
-        .collect(Collectors.toList());
+  public Page<ReviewDTO> getAll(Pageable pageable) {
+    return reviewRepository.findAll(pageable)
+        .map(r -> mapToDto(r));
   }
 
   public Optional<ReviewDTO> getItemById(Long id) {
@@ -104,11 +104,9 @@ public class ReviewService {
     return mapToDto(reviewRepository.save(oldReview));
   }
 
-  public List<ReviewDTO> getReviewsByMovie(Long id) {
-    return reviewRepository.findByMovieId(id)
-        .stream()
-        .map(r -> mapToDTOWithoutMovie(r))
-        .collect(Collectors.toList());
+  public Page<ReviewDTO> getReviewsByMovie(Long id, Pageable pageable) {
+    return reviewRepository.findByMovieId(id, pageable)
+        .map(r -> mapToDTOWithoutMovie(r));
   }
 
   public List<ReviewDTO> getReviewsByUser(String id) {

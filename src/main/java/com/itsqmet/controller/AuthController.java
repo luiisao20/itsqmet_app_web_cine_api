@@ -16,6 +16,7 @@ import com.itsqmet.dto.UserDTO;
 import com.itsqmet.jwt.JwtProvider;
 import com.itsqmet.response.AuthResponse;
 import com.itsqmet.service.UserService;
+import com.itsqmet.types.RequestBodyPassword;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,21 @@ public class AuthController {
     Map<String, Object> response = new HashMap<>();
     response.put("message", "Token is valid");
 
+    return ResponseEntity.ok(response);
+  }
+
+  @PostMapping("/change-password")
+  public ResponseEntity<Map<String, Object>> getMethodName(@RequestBody RequestBodyPassword body ) {
+    Map<String, Object> response = new HashMap<>();
+    Optional<UserDTO> currentUser = userService.getUserByEmail(body.getEmail());
+
+    if (currentUser.get() != null && userService.comparePasswords(body.getOldPassword(), body.getEmail())) {
+      currentUser.get().setPassword(body.getNewPassword());
+      userService.updateUser(currentUser.get().getUuid(), currentUser.get());
+      response.put("message", "Password updated successfully");
+      return ResponseEntity.ok(response);
+    }
+    response.put("message","Las contraseñas no coinciden");
     return ResponseEntity.ok(response);
   }
 

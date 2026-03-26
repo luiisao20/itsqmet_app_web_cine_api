@@ -1,10 +1,14 @@
 package com.itsqmet.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.itsqmet.dto.ScheduleDTO;
@@ -98,10 +102,8 @@ public class ScheduleService {
         .collect(Collectors.toList());
   }
 
-  public List<ScheduleDTO> getAll() {
-    return scheduleRepository.findAll().stream()
-        .map(s -> mapToDTO(s))
-        .collect(Collectors.toList());
+  public Page<ScheduleDTO> getAll(Pageable pageable) {
+    return scheduleRepository.findAll(pageable).map(this::mapToDTO);
   }
 
   public ScheduleDTO save(ScheduleDTO schedule) {
@@ -143,7 +145,10 @@ public class ScheduleService {
   }
 
   public List<ScheduleDTO> getItemsByStablishment(Long stablishmentId, Long movieId) {
-    return scheduleRepository.findByStablishmentIdAndMovieId(stablishmentId, movieId).stream()
+    LocalDateTime now = LocalDateTime.now();
+
+    return scheduleRepository.findByStablishmentIdAndMovieIdAndDateAfter(stablishmentId, movieId, now)
+        .stream()
         .map(s -> mapToDTOWithoutStablishmentAndMovie(s))
         .collect(Collectors.toList());
   }
@@ -161,10 +166,14 @@ public class ScheduleService {
             .collect(Collectors.toList()));
   }
 
-  public Optional<List<ScheduleDTO>> getItemsByStablishmentName(String name) {
-    return scheduleRepository.findByStablishmentNameContainingIgnoreCase(name)
-        .map(schedules -> schedules.stream()
-            .map(s -> mapToDTO(s))
-            .collect(Collectors.toList()));
+  public Optional<Page<ScheduleDTO>> getItemsByStablishmentName(String name, Pageable pageable) {
+    return scheduleRepository.findByStablishmentNameContainingIgnoreCase(name, pageable)
+        .map(schedules -> schedules
+            .map(s -> mapToDTO(s)));
   }
+
+  public List<LocalDateTime> getTimeAvailable(Long movieId, Long stablishmentId, LocalDate date) {
+    return scheduleRepository.getTimeAvaiableForSchedule(movieId, stablishmentId, date);
+  }
+
 }

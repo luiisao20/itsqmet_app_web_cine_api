@@ -1,9 +1,11 @@
 package com.itsqmet.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +23,8 @@ public class MembershipController {
   private MembershipService membershipService;
 
   @GetMapping
-  public List<MembershipDTO> getAll() {
-    return membershipService.getAll();
+  public Page<MembershipDTO> getAll(@PageableDefault(size = 10) Pageable pageable) {
+    return membershipService.getAll(pageable);
   }
 
   @GetMapping("/{id}")

@@ -1,10 +1,10 @@
 package com.itsqmet.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,12 +53,10 @@ public class UserService implements UserDetailsService {
     return dto;
   }
 
-  public List<UserDTO> showUsers() {
-    List<User> users = userRepository.findAll();
+  public Page<UserDTO> showUsers(Pageable pageable) {
 
-    return users.stream()
-        .map(u -> mapToDTO(u))
-        .collect(Collectors.toList());
+    return userRepository.findAll(pageable)
+        .map(u -> mapToDTO(u));
   }
 
   public Optional<UserDTO> getUserById(String uuid) {
@@ -109,6 +107,11 @@ public class UserService implements UserDetailsService {
         .password(user.getPassword())
         .authorities(user.getRole().name())
         .build();
+  }
+
+  public Boolean comparePasswords(String password, String email) {
+    UserDetails userDetails = loadUserByUsername(email);
+    return passwordEncoder.matches(password, userDetails.getPassword());
   }
 
   public Authentication loginAction(String email, String password) {

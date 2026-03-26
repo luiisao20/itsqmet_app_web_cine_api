@@ -1,9 +1,15 @@
 package com.itsqmet.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +31,15 @@ public class ScheduleController {
   private ScheduleService scheduleService;
 
   @GetMapping
-  public List<ScheduleDTO> getAll() {
-    return scheduleService.getAll();
+  public Page<ScheduleDTO> getAll(@PageableDefault(size = 10) Pageable pageable) {
+    return scheduleService.getAll(pageable);
+  }
+
+  @GetMapping("/time-available")
+  public List<LocalDateTime> getTimeAvaiable(@RequestParam Long movieId,
+      @RequestParam Long stablishmentId,
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    return scheduleService.getTimeAvailable(movieId, stablishmentId, date);
   }
 
   @GetMapping("/movieTitle")
@@ -35,8 +48,8 @@ public class ScheduleController {
   }
 
   @GetMapping("/stablishmentName")
-  public Optional<List<ScheduleDTO>> getByStablishment(@RequestParam(defaultValue = "") String name) {
-    return scheduleService.getItemsByStablishmentName(name);
+  public Optional<Page<ScheduleDTO>> getByStablishment(@RequestParam(defaultValue = "") String name, @PageableDefault(size = 10) Pageable pageable) {
+    return scheduleService.getItemsByStablishmentName(name, pageable);
   }
 
   @GetMapping("/{id}")

@@ -1,10 +1,10 @@
 package com.itsqmet.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.itsqmet.dto.MembershipDTO;
@@ -56,10 +56,8 @@ public class MembershipService {
     return mapToDTO(membershipRepository.save(mapToEntity(membership)));
   }
 
-  public List<MembershipDTO> getAll() {
-    return membershipRepository.findAll().stream()
-        .map(m -> mapToDTO(m))
-        .collect(Collectors.toList());
+  public Page<MembershipDTO> getAll(Pageable pageable) {
+    return membershipRepository.findAll(pageable).map(this::mapToDTO);
   }
 
   public Optional<MembershipDTO> getMembership(Long id) {

@@ -2,6 +2,8 @@ package com.itsqmet.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,10 +14,10 @@ import com.itsqmet.types.MovieStatus;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
-  List<Movie> findByTitleContainingIgnoreCase(String title);
+  Page<Movie> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
   @Query(value = "select m.* from movies as m join movie_has_categories as mc on mc.movie_id = m.id join categories as c on c.id = mc.category_id where mc.category_id = :find_category_id", nativeQuery = true)
-  List<Movie> findByCategoryId(@Param("find_category_id") Long id);
+  Page<Movie> findByCategoryId(@Param("find_category_id") Long id, Pageable pageable);
 
   List<Movie> findByStatus(MovieStatus status);
 

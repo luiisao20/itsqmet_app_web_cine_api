@@ -3,6 +3,9 @@ package com.itsqmet.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,13 +26,13 @@ public class ReviewController {
   private ReviewService reviewService;
 
   @GetMapping
-  public List<ReviewDTO> getAll() {
-    return reviewService.getAll();
+  public Page<ReviewDTO> getAll(@PageableDefault(size = 10) Pageable pageable) {
+    return reviewService.getAll(pageable);
   }
 
   @GetMapping("/movie/{id}")
-  public List<ReviewDTO> getByMovie(@PathVariable Long id) {
-    return reviewService.getReviewsByMovie(id);
+  public Page<ReviewDTO> getByMovie(@PathVariable Long id, @PageableDefault(size = 10) Pageable pageable) {
+    return reviewService.getReviewsByMovie(id, pageable);
   }
 
   @GetMapping("/user/{id}")

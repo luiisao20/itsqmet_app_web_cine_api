@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.itsqmet.dto.MovieDTO;
@@ -70,10 +72,9 @@ public class MovieService {
     return dto;
   }
 
-  public List<MovieDTO> showMovies() {
-    return movieRepository.findAll().stream()
-        .map(m -> mapToDTO(m))
-        .collect(Collectors.toList());
+  public Page<MovieDTO> showMovies(Pageable pageable) {
+    return movieRepository.findAll(pageable)
+        .map(this::mapToDTO);
   }
 
   public List<MovieDTO> saveMultipleMovies(List<MovieDTO> dtos) {
@@ -92,14 +93,12 @@ public class MovieService {
         .collect(Collectors.toList());
   }
 
-  public List<MovieDTO> findMovieByTitle(String title) {
+  public Page<MovieDTO> findMovieByTitle(String title, Pageable pageable) {
     if (title == null || title.isEmpty()) {
-      return showMovies();
+      return showMovies(pageable);
     } else {
-      return movieRepository.findByTitleContainingIgnoreCase(title)
-          .stream()
-          .map(m -> mapToDTO(m))
-          .collect(Collectors.toList());
+      return movieRepository.findByTitleContainingIgnoreCase(title, pageable)
+          .map(this::mapToDTO);
     }
   }
 
@@ -144,10 +143,8 @@ public class MovieService {
     return mapToDTO(movieRepository.save(oldMovie));
   }
 
-  public List<MovieDTO> getByCategory(Long id) {
-    return movieRepository.findByCategoryId(id)
-        .stream()
-        .map(m -> mapToDTO(m))
-        .collect(Collectors.toList());
+  public Page<MovieDTO> getByCategory(Long id, Pageable pageable) {
+    return movieRepository.findByCategoryId(id, pageable)
+        .map(m -> mapToDTO(m));
   }
 }
