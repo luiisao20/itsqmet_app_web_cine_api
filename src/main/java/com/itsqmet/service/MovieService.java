@@ -119,12 +119,12 @@ public class MovieService {
     return mapToDTO(movieRepository.save(mapToEntity(movie)));
   }
 
-  public List<MovieCategory> getMovieView() {
-    return movieRepository.getMovieCategoryView();
+  public Page<MovieCategory> getMovieView(Pageable pageable) {
+    return movieRepository.getMovieCategoryView(pageable);
   }
 
-  public List<MovieRevenew> getMovieRevenewView() {
-    return movieRepository.getMovieRevenewView();
+  public Page<MovieRevenew> getMovieRevenewView(Pageable pageable) {
+    return movieRepository.getMovieRevenewView(pageable);
   }
 
   public void deleteMovie(Long id) {
@@ -156,5 +156,9 @@ public class MovieService {
   public Page<MovieDTO> getByCategory(Long id, Pageable pageable) {
     return movieRepository.findByCategoryId(id, pageable)
         .map(m -> mapToDTO(m));
+  }
+
+  public void reloadView() {
+    movieRepository.refreshMovieFinancial();
   }
 }

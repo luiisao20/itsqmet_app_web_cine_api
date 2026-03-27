@@ -1,6 +1,5 @@
 package com.itsqmet.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +54,12 @@ public class UserService implements UserDetailsService {
     return dto;
   }
 
-  public List<UserMembership> getUsersMembership() {
-    return userRepository.getUserMembership();
+  public Page<UserMembership> getUsersMembership(Pageable pageable) {
+    return userRepository.getUserMembership(pageable);
+  }
+
+  public void refreshReport() {
+    userRepository.refreshUsersReport();
   }
 
   public Page<UserDTO> showUsers(Pageable pageable) {

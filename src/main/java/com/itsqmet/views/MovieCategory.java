@@ -21,7 +21,7 @@ public interface MovieCategory {
   LocalDateTime getReleaseDate();
 
   @Value("#{target.total_reviews}")
-  Float getTotalReviews();
+  Integer getTotalReviews();
 
   @Value("#{target.categorias}")
   String getCategories();

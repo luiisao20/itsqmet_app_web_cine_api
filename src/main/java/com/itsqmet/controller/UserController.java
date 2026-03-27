@@ -1,6 +1,5 @@
 package com.itsqmet.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,8 +33,13 @@ public class UserController {
   }
 
   @GetMapping("/membership-view")
-  public List<UserMembership> getUsersMemberships() {
-    return userService.getUsersMembership();
+  public Page<UserMembership> getUsersMemberships(@PageableDefault(size = 10) Pageable pageable) {
+    return userService.getUsersMembership(pageable);
+  }
+
+  @GetMapping("/refresh-view")
+  public void refreshView() {
+    userService.refreshReport();
   }
 
   @GetMapping("/{uuid}")

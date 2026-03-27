@@ -42,14 +42,14 @@ public class ScheduleController {
     return scheduleService.getTimeAvailable(movieId, stablishmentId, date);
   }
 
-  @GetMapping("/movieTitle")
-  public Optional<List<ScheduleDTO>> getByMovie(@RequestParam(defaultValue = "") String title) {
-    return scheduleService.getItemsByMovieTitle(title);
-  }
-
-  @GetMapping("/stablishmentName")
-  public Optional<Page<ScheduleDTO>> getByStablishment(@RequestParam(defaultValue = "") String name, @PageableDefault(size = 10) Pageable pageable) {
-    return scheduleService.getItemsByStablishmentName(name, pageable);
+  @GetMapping("/filters")
+  public Page<ScheduleDTO> getByStablishment(
+      @RequestParam(defaultValue = "") String stabName,
+      @RequestParam(defaultValue = "") String movieTitle,
+      @RequestParam(required = false) LocalDate startDate,
+      @RequestParam(required = false) LocalDate endDate,
+      @PageableDefault(size = 10) Pageable pageable) {
+    return scheduleService.getByFilters(stabName, movieTitle, startDate, endDate, pageable);
   }
 
   @GetMapping("/{id}")

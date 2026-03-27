@@ -18,15 +18,12 @@ public interface UserMembership {
   @Value("#{target.tipo_tarjeta}")
   String getCardType();
 
-  @Value("#{target.total_reviews}")
-  Float getTotalReviews();
-
   @Value("#{target.visitas_actuales}")
   Integer getCurrentVisits();
 
   @Value("#{target.visitas_minimas}")
   Integer getMinVisits();
 
-  @Value("#{target.food_discount}")
+  @Value("#{target.descuento_comida}")
   Float getFoodDiscount();
 }

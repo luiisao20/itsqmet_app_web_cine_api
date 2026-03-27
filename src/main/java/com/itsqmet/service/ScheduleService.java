@@ -160,17 +160,19 @@ public class ScheduleService {
         .collect(Collectors.toList());
   }
 
-  public Optional<List<ScheduleDTO>> getItemsByMovieTitle(String title) {
-    return scheduleRepository.findByMovieTitleContainingIgnoreCase(title)
-        .map(schedules -> schedules.stream()
-            .map(s -> mapToDTO(s))
-            .collect(Collectors.toList()));
-  }
+  public Page<ScheduleDTO> getByFilters(
+      String stabName,
+      String movieTitle,
+      LocalDate startDate,
+      LocalDate endDate, Pageable pageable) {
 
-  public Optional<Page<ScheduleDTO>> getItemsByStablishmentName(String name, Pageable pageable) {
-    return scheduleRepository.findByStablishmentNameContainingIgnoreCase(name, pageable)
-        .map(schedules -> schedules
-            .map(s -> mapToDTO(s)));
+    String nameFilter = (stabName != null && !stabName.isBlank()) ? stabName : "";
+    String movieFilter = (movieTitle != null && !movieTitle.isBlank()) ? movieTitle : "";
+
+    LocalDate startDt = startDate != null ? startDate : null;
+    LocalDate endDt = endDate != null ? endDate : null;
+    return scheduleRepository.findByFilters(nameFilter, movieFilter, startDt, endDt, pageable)
+        .map(this::mapToDTO);
   }
 
   public List<LocalDateTime> getTimeAvailable(Long movieId, Long stablishmentId, LocalDate date) {

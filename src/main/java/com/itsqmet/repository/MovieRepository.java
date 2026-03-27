@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,8 @@ import com.itsqmet.entity.Movie;
 import com.itsqmet.types.MovieStatus;
 import com.itsqmet.views.MovieCategory;
 import com.itsqmet.views.MovieRevenew;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
@@ -30,8 +33,13 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
   List<Movie> findByStablishment(@Param("find_stablishment") Long id);
 
   @Query(value = "select * from vista_peliculas_categoria;", nativeQuery = true)
-  List<MovieCategory> getMovieCategoryView();
+  Page<MovieCategory> getMovieCategoryView(Pageable pageable);
 
   @Query(value = "select * from vista_taquilla_peliculas;", nativeQuery = true)
-  List<MovieRevenew> getMovieRevenewView();
+  Page<MovieRevenew> getMovieRevenewView(Pageable pageable);
+
+  @Modifying(clearAutomatically = true)
+  @Transactional
+  @Query(value = "refresh materialized view vista_taquilla_peliculas;", nativeQuery = true)
+  void refreshMovieFinancial();
 }

@@ -44,13 +44,18 @@ public class MovieController {
   }
 
   @GetMapping("/category-view")
-  public List<MovieCategory> getView() {
-    return movieService.getMovieView();
+  public Page<MovieCategory> getView(@PageableDefault(size = 10) Pageable pageable) {
+    return movieService.getMovieView(pageable);
   }
 
   @GetMapping("/revenew-view")
-  public List<MovieRevenew> getRevenewView() {
-    return movieService.getMovieRevenewView();
+  public Page<MovieRevenew> getRevenewView(@PageableDefault(size = 10) Pageable pageable) {
+    return movieService.getMovieRevenewView(pageable);
+  }
+
+  @GetMapping("/refresh-financial")
+  public void refreshView() {
+    movieService.reloadView();
   }
 
   @GetMapping("/{id}")
