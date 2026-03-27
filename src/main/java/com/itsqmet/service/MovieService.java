@@ -161,4 +161,8 @@ public class MovieService {
   public void reloadView() {
     movieRepository.refreshMovieFinancial();
   }
+
+  public void reloadViewCategory() {
+    movieRepository.refreshMovieCategory();
+  }
 }

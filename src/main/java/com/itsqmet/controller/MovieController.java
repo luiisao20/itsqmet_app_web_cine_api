@@ -58,6 +58,11 @@ public class MovieController {
     movieService.reloadView();
   }
 
+  @GetMapping("/refresh-category")
+  public void refreshViewCategory() {
+    movieService.reloadViewCategory();
+  }
+
   @GetMapping("/{id}")
   public Optional<MovieDTO> getMovieById(@PathVariable Long id) {
     return movieService.findMovieById(id);

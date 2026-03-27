@@ -42,4 +42,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
   @Transactional
   @Query(value = "refresh materialized view vista_taquilla_peliculas;", nativeQuery = true)
   void refreshMovieFinancial();
+
+  @Modifying(clearAutomatically = true)
+  @Transactional
+  @Query(value = "refresh materialized view vista_peliculas_categoria;", nativeQuery = true)
+  void refreshMovieCategory();
 }

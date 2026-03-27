@@ -35,21 +35,30 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .httpBasic(Customizer.withDefaults())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/auth/validate").authenticated()
-            // // Paths para todos los usuarios
-            // .requestMatchers("/auth/login", "/movies", "/movies/**",
-            // "/users/register", "/contact/save")
-            // .permitAll()
-            // // Paths solo para moderadores
-            // .requestMatchers("/movies/save", "/movies/saveAll", "/movies/update/**",
-            // "/movies/delete/**",
-            // "/contact/**", "/contact/delete/**")
-            // .hasRole("MODERATOR")
-            // // Paths solo para administradores
-            // .requestMatchers("/users/update/**", "/users/delete/**",
-            // "/users").hasRole("ADMIN")
-            // // Resto de paths para usuarios autenticados
-            .anyRequest().permitAll())
+            // Paths solo para administradores
+            .requestMatchers("/users/update/**", "/users/delete/**", "/users", "/users/refresh-view")
+            .hasRole("ADMIN")
+            // Paths solo para moderadores
+            .requestMatchers("/categories/delete/**", "/categories/save", "/categories/update/**",
+                "/contact/delete/**", "/contact", "/memberships", "/memberships/*", "/memberships/delete/**",
+                "/movies/category-view", "/movies/delete/**", "/movies/refresh-financial", "/movies//refresh-category",
+                "/movies/revenew-view", "/movies/save", "/movies/saveAll", "/movies/update/**",
+                "/reviews/delete/**", "/schedules/delete/**", "/schedules/filters",
+                "/schedules/save", "/schedules/saveAll", "/schedules/time-available", "/schedules/update/**",
+                "/stablishments/delete/**", "/stablishments/save", "/stablishments/saveAll", "/stablishments/update/**",
+                "/tickets", "/tickets/schedule/**", "/users/membership-view")
+            .hasRole("MODERATOR")
+            // Paths para users autenticados
+            .requestMatchers("/auth/validate", "/auth/change-password", "/memberships/user/**",
+                "/movies/**", "/reviews", "/reviews/save", "/reviews/delete/**", "/reviews/movie/**",
+                "/schedules", "/schedules/**", "/schedules/movie/**", "/schedules/stablishment/*/movie/*",
+                "/tickets/user/**", "/tickets/save", "/users/**", "/users/update/**")
+            .authenticated()
+            // Paths publicos
+            .requestMatchers("/auth/login", "/auth/register",
+                "/categories", "/categories/**", "/stablishments",
+                "/contact/save", "/movies", "/movies/category/**", "/movies/stablishment/**")
+            .permitAll())
         .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class);
 
     return http.build();
