@@ -1,5 +1,6 @@
 package com.itsqmet.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itsqmet.dto.UserDTO;
 import com.itsqmet.service.UserService;
+import com.itsqmet.views.UserMembership;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,11 @@ public class UserController {
   @GetMapping()
   public Page<UserDTO> getUsers(@PageableDefault(size = 10) Pageable pageable) {
     return userService.showUsers(pageable);
+  }
+
+  @GetMapping("/membership-view")
+  public List<UserMembership> getUsersMemberships() {
+    return userService.getUsersMembership();
   }
 
   @GetMapping("/{uuid}")

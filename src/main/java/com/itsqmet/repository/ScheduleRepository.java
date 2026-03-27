@@ -2,6 +2,7 @@ package com.itsqmet.repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import com.itsqmet.entity.Schedule;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-  List<Schedule> findByStablishmentIdAndMovieIdAndDateAfter(Long stablishmentId, Long movieId, LocalDateTime date);
+  List<Schedule> findByStablishmentIdAndMovieIdAndDateAfter(Long stablishmentId, Long movieId, OffsetDateTime date);
 
   List<Schedule> findByMovieId(Long id);
 

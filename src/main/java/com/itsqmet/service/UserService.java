@@ -1,5 +1,6 @@
 package com.itsqmet.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.itsqmet.dto.UserDTO;
 import com.itsqmet.entity.User;
 import com.itsqmet.repository.UserRepository;
 import com.itsqmet.roles.Role;
+import com.itsqmet.views.UserMembership;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -53,8 +55,11 @@ public class UserService implements UserDetailsService {
     return dto;
   }
 
-  public Page<UserDTO> showUsers(Pageable pageable) {
+  public List<UserMembership> getUsersMembership() {
+    return userRepository.getUserMembership();
+  }
 
+  public Page<UserDTO> showUsers(Pageable pageable) {
     return userRepository.findAll(pageable)
         .map(u -> mapToDTO(u));
   }

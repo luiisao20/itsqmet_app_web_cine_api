@@ -2,6 +2,7 @@ package com.itsqmet.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -145,7 +146,7 @@ public class ScheduleService {
   }
 
   public List<ScheduleDTO> getItemsByStablishment(Long stablishmentId, Long movieId) {
-    LocalDateTime now = LocalDateTime.now();
+    OffsetDateTime now = OffsetDateTime.now();
 
     return scheduleRepository.findByStablishmentIdAndMovieIdAndDateAfter(stablishmentId, movieId, now)
         .stream()

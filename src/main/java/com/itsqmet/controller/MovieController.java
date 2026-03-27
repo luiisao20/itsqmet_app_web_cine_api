@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.itsqmet.dto.MovieDTO;
 import com.itsqmet.service.MovieService;
 import com.itsqmet.types.MovieStatus;
+import com.itsqmet.views.MovieCategory;
+import com.itsqmet.views.MovieRevenew;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,16 @@ public class MovieController {
     return movieService.getMoviesByStatus(movieStatus);
   }
 
+  @GetMapping("/category-view")
+  public List<MovieCategory> getView() {
+    return movieService.getMovieView();
+  }
+
+  @GetMapping("/revenew-view")
+  public List<MovieRevenew> getRevenewView() {
+    return movieService.getMovieRevenewView();
+  }
+
   @GetMapping("/{id}")
   public Optional<MovieDTO> getMovieById(@PathVariable Long id) {
     return movieService.findMovieById(id);
@@ -53,8 +65,8 @@ public class MovieController {
 
   @GetMapping("/category/{id}")
   public Page<MovieDTO> getItemsByCategory(
-    @PathVariable Long id,
-    @PageableDefault(size = 10) Pageable pageable) {
+      @PathVariable Long id,
+      @PageableDefault(size = 10) Pageable pageable) {
     return movieService.getByCategory(id, pageable);
   }
 

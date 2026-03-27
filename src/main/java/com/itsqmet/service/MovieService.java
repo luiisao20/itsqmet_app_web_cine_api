@@ -13,6 +13,8 @@ import com.itsqmet.dto.MovieDTO;
 import com.itsqmet.entity.Movie;
 import com.itsqmet.repository.MovieRepository;
 import com.itsqmet.types.MovieStatus;
+import com.itsqmet.views.MovieCategory;
+import com.itsqmet.views.MovieRevenew;
 
 @Service
 public class MovieService {
@@ -115,6 +117,14 @@ public class MovieService {
 
   public MovieDTO saveMovie(MovieDTO movie) {
     return mapToDTO(movieRepository.save(mapToEntity(movie)));
+  }
+
+  public List<MovieCategory> getMovieView() {
+    return movieRepository.getMovieCategoryView();
+  }
+
+  public List<MovieRevenew> getMovieRevenewView() {
+    return movieRepository.getMovieRevenewView();
   }
 
   public void deleteMovie(Long id) {

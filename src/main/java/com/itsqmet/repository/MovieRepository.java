@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.itsqmet.entity.Movie;
 import com.itsqmet.types.MovieStatus;
+import com.itsqmet.views.MovieCategory;
+import com.itsqmet.views.MovieRevenew;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
@@ -26,4 +28,10 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
       "on st.id = s.stablishment_id where st.id = " +
       ":find_stablishment group by m.id order by m.release_date asc", nativeQuery = true)
   List<Movie> findByStablishment(@Param("find_stablishment") Long id);
+
+  @Query(value = "select * from vista_peliculas_categoria;", nativeQuery = true)
+  List<MovieCategory> getMovieCategoryView();
+
+  @Query(value = "select * from vista_taquilla_peliculas;", nativeQuery = true)
+  List<MovieRevenew> getMovieRevenewView();
 }
